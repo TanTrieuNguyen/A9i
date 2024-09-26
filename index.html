@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-Neo Web App</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        textarea { width: 100%; height: 100px; }
+    </style>
+</head>
+<body>
+    <h1>GPT-Neo Text Generator</h1>
+    <textarea id="prompt" placeholder="Enter your prompt here..."></textarea>
+    <button id="generateBtn">Generate</button>
+    <h2>Response:</h2>
+    <pre id="response"></pre>
+
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const prompt = document.getElementById('prompt').value;
+
+            const response = await fetch('http://localhost:3000/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            });
+
+            const data = await response.json();
+            document.getElementById('response').textContent = data.generated_text || "No response";
+        });
+    </script>
+</body>
+</html>
